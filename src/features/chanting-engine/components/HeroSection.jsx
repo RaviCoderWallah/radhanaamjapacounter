@@ -1,7 +1,6 @@
 "use client";
 
 import { BiSolidVolumeFull, BiSolidVolumeMute } from "react-icons/bi";
-
 import { useJapaState } from "@/hooks/useJapaState";
 import { CounterPanel, DeityDisplay } from "..";
 import useSound from "use-sound";
@@ -10,6 +9,7 @@ import { useRouter, usePathname } from "next/navigation";
 import confetti from "canvas-confetti";
 import { useSessionScoring } from "@/hooks/useSessionScoring";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const HeroSection = ({
   imageSrc,
@@ -69,8 +69,18 @@ const HeroSection = ({
       onClick={handleJapaCount}
       className="w-full min-h-[calc(100vh-3rem)] relative select-none"
     >
-      <section className="mx-auto px-4 py-4">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 sm:gap-3 md:gap-4 items-center">
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="mx-auto px-4 py-4"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="grid grid-cols-2 md:grid-cols-3 gap-8 sm:gap-3 md:gap-4 items-center"
+        >
           {/* Audio Mute and Unmute Toggle  */}
           <div
             className="col-span-1 flex items-center gap-1.5 order-2 md:order-1 cursor-pointer select-none"
@@ -180,11 +190,17 @@ const HeroSection = ({
               End Session 🏆
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        <CounterPanel />
-        <DeityDisplay imgSrc={imageSrc} altDescription={altDescription} />
-      </section>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+        >
+          <CounterPanel />
+          <DeityDisplay imgSrc={imageSrc} altDescription={altDescription} />
+        </motion.div>
+      </motion.section>
     </section>
   );
 };

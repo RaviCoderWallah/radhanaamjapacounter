@@ -1,109 +1,141 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import PageHeader from "@/components/shared/PageHeader";
+import { motion } from "framer-motion";
 
 const mantras = [
   {
     id: 1,
-    name: "Om Gam Ganapataye Namah",
-    deity: "Lord Ganesha",
-    description:
-      "Invoke the remover of obstacles and begin your journey with grace.",
-    image: "/images/ganesh.jpg",
-    href: "/mantra/om-gam-ganapataye-namah",
+    deity: "Radha Rani",
+    name: "Radhe Radhe",
+    description: "Chant the name of Radha Rani to invoke supreme devotion and pure love.",
+    image: "/images/radha.jpg",
+    href: "/",
     accent: "#F37420",
   },
   {
     id: 2,
-    name: "Om Ham Hanumate Namah",
-    deity: "Lord Hanuman",
-    description:
-      "Seek the blessings of the divine devotee for strength and courage.",
-    image: "/images/hanuman.jpg",
-    href: "/mantra/om-ham-hanumate-namah",
+    deity: "Lord Krishna",
+    name: "Hare Krishna",
+    description: "The Maha Mantra for peace, spiritual joy, and direct connection to Krishna.",
+    image: "/images/krishna.jfif",
+    href: "/mantra/hare-krishna",
     accent: "#F37420",
   },
   {
     id: 3,
-    name: "Hare Krishna Hare Krishna",
-    deity: "Lord Krishna",
-    description: "Chant the Maha Mantra and immerse yourself in divine bliss.",
-    image: "/images/krishna.jfif",
-    href: "/mantra/hare-krishna",
-    accent: "#F9BB4D",
-  },
-  {
-    id: 4,
-    name: "Radhe Radhe",
-    deity: "Radha Rani",
-    description:
-      "Sing the name of Radha Rani and feel her boundless love and grace.",
-    image: "/images/radha.jpg",
-    href: "/",
-    accent: "#F9BB4D",
-  },
-  {
-    id: 5,
-    name: "Jai Shri Ram",
     deity: "Lord Ram",
-    description: "Chant the name of Shri Ram, the embodiment of righteousness.",
+    name: "Jai Shri Ram",
+    description: "Connect with righteousness, strength, and truth by chanting Ram Naam.",
     image: "/images/ram.jfif",
     href: "/mantra/jai-shri-ram",
     accent: "#F37420",
   },
   {
+    id: 4,
+    deity: "Lord Ganesha",
+    name: "Om Gam Ganapataye Namah",
+    description: "Invoke the remover of obstacles to bring success and auspicious beginnings.",
+    image: "/images/ganesh.jpg",
+    href: "/mantra/om-gam-ganapataye-namah",
+    accent: "#F9BB4D",
+  },
+  {
+    id: 5,
+    deity: "Lord Hanuman",
+    name: "Om Ham Hanumate Namah",
+    description: "Gain supreme physical and spiritual strength, courage, and protection.",
+    image: "/images/hanuman.jpg",
+    href: "/mantra/om-ham-hanumate-namah",
+    accent: "#F37420",
+  },
+  {
     id: 6,
-    name: "Om Namah Shivaya",
     deity: "Lord Shiva",
-    description:
-      "Bow to Lord Shiva, the supreme being of cosmic consciousness.",
+    name: "Om Namah Shivaya",
+    description: "Bow to Lord Shiva, the supreme being of cosmic consciousness.",
     image: "/images/shivji.png",
     href: "/mantra/om-namah-shivaya",
     accent: "#F9BB4D",
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
 const MantraPage = () => {
   return (
-    <main className="flex-1 w-full px-4 py-10 md:py-16">
+    <main className="flex-1 w-full px-4 py-10 md:py-16 bg-[#fffdf8]">
+      {/* JSON-LD: BreadcrumbList + ItemList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: "https://radhanaamjapa.com/" },
+                  { "@type": "ListItem", position: 2, name: "Mantras", item: "https://radhanaamjapa.com/mantra" },
+                ],
+              },
+              {
+                "@type": "ItemList",
+                name: "Sacred Mantras for Japa Practice",
+                description: "A curated list of Hindu mantras available for digital japa counting.",
+                numberOfItems: mantras.length,
+                itemListElement: mantras.map((m, i) => ({
+                  "@type": "ListItem",
+                  position: i + 1,
+                  name: m.name,
+                  url: `https://radhanaamjapa.com${m.href}`,
+                })),
+              },
+            ],
+          }),
+        }}
+      />
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1
-          className="primary-heading font-bold mb-3"
-          style={{ color: "#F37420" }}
-        >
-          Choose Your Mantra
-        </h1>
-        <p
-          className="paragraph-text max-w-xl mx-auto"
-          style={{ color: "#7a5c2e" }}
-        >
-          Select a sacred mantra below to begin your japa practice. Tap anywhere
-          on the counter page to count your repetitions.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Sacred Mantras"
+        heading="Choose Your Mantra"
+        description="Select a sacred mantra below to begin your japa practice. Tap anywhere on the counter page to count your repetitions."
+      />
 
       {/* Grid */}
-      <div 
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         role="list"
         aria-label="List of available mantras for japa chanting"
         className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {mantras.map((mantra) => (
-          <div
+          <motion.div
             key={mantra.id}
+            variants={itemVariants}
+            whileHover={{ y: -6, boxShadow: "0 12px 28px rgba(243,116,32,0.14)" }}
             role="listitem"
-            className="mantra-card group rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300"
-            style={{
-              background: "#fff8ee",
-              border: "1.5px solid #FAD199",
-              boxShadow: "0 4px 20px 0 rgba(243,116,32,0.06)",
-            }}
+            className="mantra-card group rounded-2xl overflow-hidden transition-all duration-300 border border-[#FAD199] bg-[#fff8ee]"
           >
             {/* Image */}
             <div
-              className="relative w-full overflow-hidden"
-              style={{ height: "200px" }}
+              className="relative w-full overflow-hidden h-[200px]"
             >
               <Image
                 src={mantra.image}
@@ -114,11 +146,7 @@ const MantraPage = () => {
               />
               {/* Gradient overlay */}
               <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(243,116,32,0.55) 0%, transparent 60%)",
-                }}
+                className="absolute inset-0 bg-gradient-to-t from-[#F37420]/55 via-transparent to-transparent opacity-90"
               />
               {/* Deity name on image */}
               <span
@@ -132,14 +160,12 @@ const MantraPage = () => {
             {/* Content */}
             <div className="p-5 flex flex-col gap-3">
               <h2
-                className="text-xl font-bold leading-snug"
-                style={{ color: "#F37420" }}
+                className="text-xl font-bold leading-snug text-[#F37420]"
               >
                 {mantra.name}
               </h2>
               <p
-                className="paragraph-text leading-relaxed font-medium text-xs sm:text-sm"
-                style={{ color: "#7a5c2e" }}
+                className="paragraph-text leading-relaxed font-medium text-xs sm:text-sm text-[#7a5c2e]"
               >
                 {mantra.description}
               </p>
@@ -148,11 +174,10 @@ const MantraPage = () => {
               <Link
                 href={mantra.href}
                 aria-label={`Start chanting ${mantra.name}`}
-                className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold button-text transition-all duration-200 hover:scale-[1.01] active:scale-95 cursor-pointer focus:outline-3 focus:outline-offset-2 focus:outline-amber-600"
+                className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold button-text transition-all duration-200 hover:scale-[1.01] active:scale-95 cursor-pointer text-white shadow-md"
                 style={{
                   background:
                     "linear-gradient(135deg, #F37420 0%, #F9BB4D 100%)",
-                  color: "#fff",
                   boxShadow: "0 4px 12px rgba(243,116,32,0.22)",
                   textDecoration: "none",
                 }}
@@ -160,9 +185,9 @@ const MantraPage = () => {
                 Start Chanting
               </Link>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </main>
   );
 };

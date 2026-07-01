@@ -2,24 +2,51 @@ import { HeroSection } from "@/features/chanting-engine";
 import ChallengeSection from "@/components/ChallengeSection";
 import DownloadAppCTA from "@/components/DownloadAppCTA";
 import FAQSection from "@/components/FAQSection";
+import { motion } from "framer-motion";
+
 
 export const metadata = {
   title: "Radha Naam Japa Counter — Free Online Japa Mala Tracker",
   description:
     "Track your daily Radhe Radhe japa with our free online counter. Build chanting streaks, earn points, and join thousands of devotees on the community leaderboard.",
-  keywords:
-    "japa counter, radhe radhe, japa mala, chanting tracker, bhakti, radha krishna, mantra counter, japa sadhana",
+  keywords: [
+    "japa counter",
+    "radhe radhe",
+    "japa mala",
+    "chanting tracker",
+    "bhakti",
+    "radha krishna",
+    "mantra counter",
+    "japa sadhana",
+    "online mala counter",
+    "free japa tracker",
+    "digital mala",
+    "devotional app",
+  ],
+  alternates: { canonical: "https://radhanaamjapa.com/" },
   openGraph: {
     title: "Radha Naam Japa Counter — Free Online Japa Mala Tracker",
     description:
       "Count your Radhe Radhe japa, track your streak, and join thousands of bhakts on the community leaderboard.",
+    url: "https://radhanaamjapa.com/",
     type: "website",
     siteName: "Radha Naam Japa Counter",
+    images: [
+      {
+        url: "/images/radha.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Radha Naam Japa Counter — Free Online Japa Mala Tracker",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@radhanaamjapa",
+    creator: "@radhanaamjapa",
     title: "Radha Naam Japa Counter",
     description: "Free online japa counter for devotees. Track Radhe Radhe, Hare Krishna, Om Namah Shivaya & more.",
+    images: ["/images/radha.jpg"],
   },
 };
 
@@ -71,6 +98,31 @@ export default function Home() {
                 name: "Radha Naam Japa Counter",
                 description: "Free online japa counter for devotees. Track Radhe Radhe, Hare Krishna, Om Namah Shivaya & more.",
                 inLanguage: "en",
+                publisher: { "@id": "https://radhanaamjapa.com/#organization" },
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://radhanaamjapa.com/#webpage",
+                url: "https://radhanaamjapa.com/",
+                name: "Radha Naam Japa Counter — Free Online Japa Mala Tracker",
+                isPartOf: { "@id": "https://radhanaamjapa.com/#website" },
+                about: { "@id": "https://radhanaamjapa.com/#organization" },
+                description:
+                  "Track your daily Radhe Radhe japa with our free online counter. Build chanting streaks, earn points, and join thousands of devotees on the community leaderboard.",
+                inLanguage: "en",
+                breadcrumb: { "@id": "https://radhanaamjapa.com/#breadcrumb" },
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": "https://radhanaamjapa.com/#breadcrumb",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://radhanaamjapa.com/",
+                  },
+                ],
               },
               {
                 "@type": "HowTo",
@@ -110,7 +162,13 @@ export default function Home() {
       <section className="w-full bg-[#FFF8E7] py-16 px-6">
         <div className="max-w-5xl mx-auto">
           {/* Heading */}
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="text-center mb-12"
+          >
             <p className="text-[#F37420] font-semibold text-sm uppercase tracking-widest mb-2">
               Everything You Need
             </p>
@@ -118,94 +176,44 @@ export default function Home() {
               Features Built for Bhakts
             </h2>
             <div className="w-16 h-1 bg-[#F37420] rounded-full mx-auto mt-3" />
-          </div>
+          </motion.div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Feature 1 - Weekly Progress */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">📊</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Weekly Progress
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Visualize your chanting journey with beautiful weekly bar
-                charts. See which days you chanted the most and stay consistent.
-              </p>
-            </div>
-
-            {/* Feature 2 - Leaderboard */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">🏆</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Community Leaderboard
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Compete with devotees worldwide. Climb the ranks, earn your
-                place on the podium, and inspire others with your dedication.
-              </p>
-            </div>
-
-            {/* Feature 3 - Personal Dashboard */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">🪔</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Personal Dashboard
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Your own sadhana space — today's japa, lifetime count, total
-                time spent chanting, all in one beautiful instant view.
-              </p>
-            </div>
-
-            {/* Feature 4 - Monthly Progress */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">📅</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Monthly Heatmap
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Track every single day of the month with a color-coded heatmap.
-                Never miss a day and build an unbreakable chanting habit.
-              </p>
-            </div>
-
-            {/* Feature 5 - Streak */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">🔥</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Streak Tracker
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Build your daily chanting streak and protect it. See your
-                current and longest streak — consistency is the true sadhana.
-              </p>
-            </div>
-
-            {/* Feature 6 - Multiple Mantras */}
-            <div className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] hover:shadow-lg hover:shadow-amber-100 transition-all duration-300 cursor-pointer">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
-                <span className="text-2xl">📿</span>
-              </div>
-              <h3 className="text-lg font-bold text-[#4A1C00] mb-2">
-                Multiple Mantras
-              </h3>
-              <p className="text-[#78350F] text-sm leading-relaxed">
-                Choose from sacred mantras — Radhe Radhe, Hare Krishna, Om Namah
-                Shivaya and more. Each chant tracked separately with love.
-              </p>
-            </div>
-          </div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {[
+              { icon: "📊", title: "Weekly Progress", desc: "Visualize your chanting journey with beautiful weekly bar charts. See which days you chanted the most and stay consistent." },
+              { icon: "🏆", title: "Community Leaderboard", desc: "Compete with devotees worldwide. Climb the ranks, earn your place on the podium, and inspire others with your dedication." },
+              { icon: "🪔", title: "Personal Dashboard", desc: "Your own sadhana space \u2014 today's japa, lifetime count, total time spent chanting, all in one beautiful instant view." },
+              { icon: "📅", title: "Monthly Heatmap", desc: "Track every single day of the month with a color-coded heatmap. Never miss a day and build an unbreakable chanting habit." },
+              { icon: "🔥", title: "Streak Tracker", desc: "Build your daily chanting streak and protect it. See your current and longest streak \u2014 consistency is the true sadhana." },
+              { icon: "📿", title: "Multiple Mantras", desc: "Choose from sacred mantras \u2014 Radhe Radhe, Hare Krishna, Om Namah Shivaya and more. Each chant tracked separately with love." },
+            ].map(({ icon, title, desc }) => (
+              <motion.div
+                key={title}
+                variants={{
+                  hidden: { opacity: 0, y: 28 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+                }}
+                whileHover={{ y: -6, boxShadow: "0 12px 28px rgba(243,116,32,0.15)" }}
+                className="group bg-white rounded-2xl p-6 border border-[#FDE68A] hover:border-[#F37420] transition-all duration-300 cursor-pointer"
+              >
+                <div className="w-14 h-14 bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-2xl flex items-center justify-center mb-5 group-hover:-translate-y-1 transition-transform duration-300">
+                  <span className="text-2xl">{icon}</span>
+                </div>
+                <h3 className="text-lg font-bold text-[#4A1C00] mb-2">{title}</h3>
+                <p className="text-[#78350F] text-sm leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 

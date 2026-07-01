@@ -9,7 +9,8 @@ import { getLocalDateString } from "@/utils/helper";
 import { getSessions, getCurrentMonthPoints } from "@/lib/storage";
 import { useEffect, useState } from "react";
 import FAQSection from "@/components/FAQSection";
-
+import PageHeader from "@/components/shared/PageHeader";
+import { motion } from "framer-motion";
 
 import {
   BarChart,
@@ -85,7 +86,20 @@ const getMonthlyData = (dailyStats) => {
   return { heatmapData, monthName };
 };
 
-const page = () => {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+};
+
+const StatisticsPage = () => {
   const { analytics } = useJapaState();
   const [sessions, setSessions] = useState([]);
   const [monthPoints, setMonthPoints] = useState(0);
@@ -115,13 +129,28 @@ const page = () => {
 
   return (
     <main className="flex-1 max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-amber-950">Statistics Dashboard</h1>
+      {/* Header */}
+      <PageHeader
+        eyebrow="My Sadhana Progress"
+        heading="Statistics Dashboard"
+        description="Track your daily chanting trends, view monthly streaks, and see how consistent you are on your spiritual journey."
+      />
       
       {/* Overview Cards */}
-      <section aria-label="Statistics overview" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 mb-8">
+      <motion.section 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        aria-label="Statistics overview" 
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 mb-8"
+      >
         
         {/* Streaks Card */}
-        <div className="col-span-2 bg-[#F37420] text-[#FFFDF9] p-4 rounded-xl flex items-center justify-between gap-3 shadow-md border border-amber-600/30">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ scale: 1.01 }}
+          className="col-span-2 bg-[#F37420] text-[#FFFDF9] p-4 rounded-xl flex items-center justify-between gap-3 shadow-md border border-amber-600/30"
+        >
           <div className="flex flex-col gap-1">
             <p className="text-xs uppercase tracking-wider text-amber-100 font-semibold">Current Streaks</p>
             <p className="text-3xl font-black">
@@ -137,10 +166,14 @@ const page = () => {
           <div className="bg-white/10 p-2.5 rounded-lg">
             <FaFire className="text-3xl text-amber-100" />
           </div>
-        </div>
+        </motion.div>
 
         {/* Today Japa */}
-        <div className="col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs hover:border-amber-500/30 transition-all duration-200">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -3, boxShadow: "0 8px 16px rgba(0,0,0,0.05)" }}
+          className="col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs transition-all duration-200"
+        >
           <div className="p-2 bg-amber-50 rounded-lg">
             <GiPrayerBeads className="text-2xl text-[#F37420]" />
           </div>
@@ -150,10 +183,14 @@ const page = () => {
               {todayJapaCount}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Lifetime Chants */}
-        <div className="col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs hover:border-amber-500/30 transition-all duration-200">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -3, boxShadow: "0 8px 16px rgba(0,0,0,0.05)" }}
+          className="col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs transition-all duration-200"
+        >
           <div className="p-2 bg-amber-50 rounded-lg">
             <FaRegUser className="text-2xl text-[#F37420]" />
           </div>
@@ -163,10 +200,14 @@ const page = () => {
               {summary.lifetimeCount}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Total Duration */}
-        <div className="col-span-2 sm:col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs hover:border-amber-500/30 transition-all duration-200">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -3, boxShadow: "0 8px 16px rgba(0,0,0,0.05)" }}
+          className="col-span-2 sm:col-span-1 bg-[#FFFDF9] border border-amber-200/80 p-4 rounded-xl flex flex-col justify-center gap-2 items-center text-center shadow-xs transition-all duration-200"
+        >
           <div className="p-2 bg-amber-50 rounded-lg">
             <GiSandsOfTime className="text-2xl text-[#F37420]" />
           </div>
@@ -176,12 +217,18 @@ const page = () => {
               {totalMinutes} <span className="text-xs font-medium text-amber-800">Min</span>
             </p>
           </div>
-        </div>
+        </motion.div>
 
-      </section>
+      </motion.section>
  
       {/* Weekly Progress Section */}
-      <section aria-labelledby="weekly-title" className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs mb-8">
+      <motion.section 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+        aria-labelledby="weekly-title" 
+        className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs mb-8"
+      >
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
           <div>
             <h2 id="weekly-title" className="text-lg sm:text-xl font-bold text-amber-950 font-poppins">
@@ -241,10 +288,16 @@ const page = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </section>
+      </motion.section>
  
       {/* Monthly Progress Section */}
-      <section aria-labelledby="monthly-title" className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs">
+      <motion.section 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        aria-labelledby="monthly-title" 
+        className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs"
+      >
         <h2 id="monthly-title" className="text-lg sm:text-xl font-bold text-amber-950">Monthly Progress</h2>
         <p className="text-xs sm:text-sm text-amber-700 font-medium mb-6">{monthName} {new Date().getFullYear()}</p>
  
@@ -278,13 +331,14 @@ const page = () => {
             }
  
             return (
-              <div
+              <motion.div
                 key={day.dateStr}
                 style={bgStyle}
                 role="gridcell"
                 tabIndex={0}
                 aria-label={tooltipText}
-                className={`aspect-square rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold relative group cursor-pointer transition-all duration-200 hover:scale-105 ${borderClass} ${
+                whileHover={{ scale: 1.08, zIndex: 5 }}
+                className={`aspect-square rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold relative group cursor-pointer transition-all duration-200 border ${borderClass} ${
                   day.count > 0 && day.count < 540 ? "text-amber-950" : "text-amber-900/60"
                 } focus:outline-2 focus:outline-offset-2 focus:outline-amber-600`}
               >
@@ -297,7 +351,7 @@ const page = () => {
                 >
                   {tooltipText}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -328,22 +382,38 @@ const page = () => {
             <span>1080+</span>
           </div>
         </div>
-      </section>
-
+      </motion.section>
+ 
       {/* ── Monthly Points ── */}
-      <section aria-labelledby="monthly-points-title" className="bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-xl p-5 sm:p-6 shadow-md mt-8 text-center">
+      <motion.section 
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.35 }}
+        aria-labelledby="monthly-points-title" 
+        className="bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-xl p-5 sm:p-6 shadow-md mt-8 text-center"
+      >
         <p id="monthly-points-title" className="text-xs uppercase tracking-wider text-amber-100 font-semibold mb-1">Is Mahine Ke Points</p>
         <p className="text-5xl font-black text-white">{monthPoints.toFixed(2)}</p>
         <p className="text-xs text-amber-100/80 mt-2">Points = Mala × Time × Streak × Tap Quality</p>
-      </section>
-
+      </motion.section>
+ 
       {/* ── Session History ── */}
       {sessions.length > 0 && (
-        <section aria-labelledby="session-history-title" className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs mt-8">
+        <motion.section 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          aria-labelledby="session-history-title" 
+          className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs mt-8"
+        >
           <h2 id="session-history-title" className="text-lg sm:text-xl font-bold text-amber-950 mb-4">Session History</h2>
           <div className="space-y-3">
             {sessions.slice().reverse().map((s, i) => (
-              <div key={i} className="bg-amber-50/60 border border-amber-200/60 rounded-xl p-4 flex justify-between items-center gap-3">
+              <motion.div 
+                key={i} 
+                whileHover={{ scale: 1.01 }}
+                className="bg-amber-50/60 border border-amber-200/60 rounded-xl p-4 flex justify-between items-center gap-3"
+              >
                 <div>
                   <p className="text-sm font-semibold text-amber-900">{s.date}</p>
                   <p className="text-xs text-amber-700 mt-0.5">
@@ -351,14 +421,19 @@ const page = () => {
                   </p>
                 </div>
                 <span className="font-black text-[#F37420] text-lg whitespace-nowrap">+{s.pointsEarned} pts</span>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
-
+ 
       {/* FAQ Section */}
-      <div className="mt-8">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.45 }}
+        className="mt-8"
+      >
         <FAQSection
           headingId="statistics-faq"
           faqs={[
@@ -369,9 +444,9 @@ const page = () => {
             { q: "Can I see statistics from previous months?", a: "Yes! The Session History section shows all past sessions. Monthly points are tracked separately per month." },
           ]}
         />
-      </div>
+      </motion.div>
     </main>
   );
 };
-
-export default page;
+ 
+export default StatisticsPage;
