@@ -54,11 +54,11 @@ const HeroSection = ({
   const handleEndSession = (e) => {
     e.stopPropagation();
     if (japaCount === 0) {
-      toast("Pehle japa karo! 🙏", { icon: "📿" });
+      toast("Start chanting first! 🙏", { icon: "📿" });
       return;
     }
     const pts = endSession();
-    toast.success(`Session khatam! Aapne ${pts} points kamaaye! 🎉`, {
+    toast.success(`Session complete! You earned ${pts} points! 🎉`, {
       duration: 4000,
       icon: "🏆",
     });

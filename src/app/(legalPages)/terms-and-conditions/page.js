@@ -1,9 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import FAQSection from "@/components/FAQSection";
 import PageHeader from "@/components/shared/PageHeader";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+
+export const metadata = {
+  title: "Terms and Conditions — Radha Naam Japa Counter",
+  description:
+    "Terms and Conditions for using Radha Naam Japa Counter. Understand our rules, account use, and anti-cheat policies.",
+  keywords: ["terms of service", "terms and conditions", "japa counter terms"],
+  alternates: { canonical: "https://radhanaamjapa.com/terms-and-conditions" },
+};
 
 const LAST_UPDATED = "July 1, 2026";
 

@@ -6,7 +6,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { GiSandsOfTime } from "react-icons/gi";
 import { useJapaState } from "@/hooks/useJapaState";
 import { getLocalDateString } from "@/utils/helper";
-import { getSessions, getCurrentMonthPoints } from "@/lib/storage";
+import { getSessions, getCurrentMonthPoints, deleteSession, clearAllSessions } from "@/lib/storage";
 import { useEffect, useState } from "react";
 import FAQSection from "@/components/FAQSection";
 import PageHeader from "@/components/shared/PageHeader";
@@ -104,10 +104,26 @@ const StatisticsPage = () => {
   const [sessions, setSessions] = useState([]);
   const [monthPoints, setMonthPoints] = useState(0);
 
-  useEffect(() => {
+  const loadSessions = () => {
     setSessions(getSessions());
     setMonthPoints(getCurrentMonthPoints());
+  };
+
+  useEffect(() => {
+    loadSessions();
   }, []);
+
+  const handleDeleteSession = (indexInReversed) => {
+    // reversed index → original index
+    const originalIndex = sessions.length - 1 - indexInReversed;
+    deleteSession(originalIndex);
+    loadSessions();
+  };
+
+  const handleClearAll = () => {
+    clearAllSessions();
+    loadSessions();
+  };
 
   const summary = analytics?.summary || {
     currentStreak: 0,
@@ -245,7 +261,7 @@ const StatisticsPage = () => {
         </div>
  
         <div className="w-full h-56 sm:h-64">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minHeight={224}>
             <BarChart
               data={chartData}
               margin={{ top: 10, right: 10, left: -25, bottom: 0 }}
@@ -384,7 +400,7 @@ const StatisticsPage = () => {
         </div>
       </motion.section>
  
-      {/* ── Monthly Points ── */}
+      {/* ── This Month's Points ── */}
       <motion.section 
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -392,7 +408,7 @@ const StatisticsPage = () => {
         aria-labelledby="monthly-points-title" 
         className="bg-gradient-to-br from-[#F37420] to-[#F9BB4D] rounded-xl p-5 sm:p-6 shadow-md mt-8 text-center"
       >
-        <p id="monthly-points-title" className="text-xs uppercase tracking-wider text-amber-100 font-semibold mb-1">Is Mahine Ke Points</p>
+        <p id="monthly-points-title" className="text-xs uppercase tracking-wider text-amber-100 font-semibold mb-1">This Month&apos;s Points</p>
         <p className="text-5xl font-black text-white">{monthPoints.toFixed(2)}</p>
         <p className="text-xs text-amber-100/80 mt-2">Points = Mala × Time × Streak × Tap Quality</p>
       </motion.section>
@@ -406,21 +422,41 @@ const StatisticsPage = () => {
           aria-labelledby="session-history-title" 
           className="bg-[#FFFDF9] border border-amber-900/10 p-5 sm:p-6 rounded-xl shadow-xs mt-8"
         >
-          <h2 id="session-history-title" className="text-lg sm:text-xl font-bold text-amber-950 mb-4">Session History</h2>
-          <div className="space-y-3">
+          <div className="flex justify-between items-center mb-4">
+            <h2 id="session-history-title" className="text-lg sm:text-xl font-bold text-amber-950">Session History</h2>
+            <button
+              onClick={handleClearAll}
+              className="text-xs font-semibold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-all border border-red-200 hover:border-red-300 cursor-pointer"
+              aria-label="Clear all sessions"
+            >
+              Clear All
+            </button>
+          </div>
+          {/* Scrollable list — max 5 rows visible */}
+          <div className="space-y-3 max-h-[340px] overflow-y-auto pr-1 scrollbar-thin">
             {sessions.slice().reverse().map((s, i) => (
               <motion.div 
                 key={i} 
-                whileHover={{ scale: 1.01 }}
+                whileHover={{ scale: 1.005 }}
+                layout
                 className="bg-amber-50/60 border border-amber-200/60 rounded-xl p-4 flex justify-between items-center gap-3"
               >
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold text-amber-900">{s.date}</p>
-                  <p className="text-xs text-amber-700 mt-0.5">
+                  <p className="text-xs text-amber-700 mt-0.5 truncate">
                     {s.malaCount} mala · {s.japaCount} japa · {Math.round(s.sessionDurationSeconds / 60)} min · {s.streakDays}d streak
                   </p>
                 </div>
-                <span className="font-black text-[#F37420] text-lg whitespace-nowrap">+{s.pointsEarned} pts</span>
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="font-black text-[#F37420] text-lg whitespace-nowrap">+{s.pointsEarned} pts</span>
+                  <button
+                    onClick={() => handleDeleteSession(i)}
+                    aria-label={`Delete session from ${s.date}`}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-amber-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-200 cursor-pointer text-base"
+                  >
+                    ×
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>

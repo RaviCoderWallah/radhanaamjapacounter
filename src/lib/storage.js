@@ -44,3 +44,15 @@ export function getTodaySessions() {
   const today = new Date().toISOString().slice(0, 10);
   return getSessions().filter((s) => s.date === today);
 }
+
+// Delete a single session by index (in the original order)
+export function deleteSession(index) {
+  const existing = getSessions();
+  existing.splice(index, 1);
+  localStorage.setItem(SESSIONS_KEY, JSON.stringify(existing));
+}
+
+// Clear all sessions
+export function clearAllSessions() {
+  localStorage.removeItem(SESSIONS_KEY);
+}

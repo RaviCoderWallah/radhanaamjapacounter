@@ -1,10 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import FAQSection from "@/components/FAQSection";
 import PageHeader from "@/components/shared/PageHeader";
 import AnimatedSection from "@/components/shared/AnimatedSection";
-import { motion } from "framer-motion";
+
+export const metadata = {
+  title: "About Us — Learn About Radha Naam Japa Counter",
+  description:
+    "Radha Naam Japa Counter is a free online japa mala tracking app built for devotees. Read our story and mission to help the community stay consistent in bhakti.",
+  keywords: ["about japa counter", "bhakti app", "radha krishna", "digital mala dev team"],
+  alternates: { canonical: "https://radhanaamjapa.com/about-us" },
+};
 
 const pageFAQs = [
   {

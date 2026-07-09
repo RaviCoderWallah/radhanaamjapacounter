@@ -6,53 +6,68 @@ import { useState, useEffect, useRef } from "react";
 import { PiFlowerLotusFill } from "react-icons/pi";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogOut } from "react-icons/io5";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { useAuth } from "@/hooks/useAuth";
+
+const legalLinks = [
+  { pathName: "About Us", pathSrc: "/about-us" },
+  { pathName: "Contact Us", pathSrc: "/contact-us" },
+  { pathName: "Privacy & Policy", pathSrc: "/privacy-policy" },
+  { pathName: "Terms & Conditions", pathSrc: "/terms-and-conditions" },
+  { pathName: "Disclaimer", pathSrc: "/disclaimer" },
+];
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLegalOpen, setIsLegalOpen] = useState(false);
+  const [isMobileLegalOpen, setIsMobileLegalOpen] = useState(false);
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const legalDropdownRef = useRef(null);
 
   const { signInWithGoogle, user, logout } = useAuth();
 
+  const isLegalActive = legalLinks.some((l) => pathname === l.pathSrc);
+
   const navLinks = [
-    {
-      pathName: "Home",
-      pathSrc: "/",
-    },
-    {
-      pathName: "Statistics",
-      pathSrc: "/statistics",
-    },
-    {
-      pathName: "Leaderboard",
-      pathSrc: "/leaderboard",
-    },
-    {
-      pathName: "Mantra",
-      pathSrc: "/mantra",
-    },
+    { pathName: "Home", pathSrc: "/" },
+    { pathName: "Statistics", pathSrc: "/statistics" },
+    { pathName: "Leaderboard", pathSrc: "/leaderboard" },
+    { pathName: "Mantra", pathSrc: "/mantra" },
   ];
 
   // Close menu on navigation
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsLegalOpen(false);
   }, [pathname]);
+
+  // Close legal dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        legalDropdownRef.current &&
+        !legalDropdownRef.current.contains(e.target)
+      ) {
+        setIsLegalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Handle Escape key to close menu
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         setIsMenuOpen(false);
-        // Return focus to hamburger
+        setIsLegalOpen(false);
         hamburgerRef.current?.focus();
       }
     };
     if (isMenuOpen) {
       document.addEventListener("keydown", handleKeyDown);
-      // Prevent body scrolling when menu is open
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -92,7 +107,6 @@ const Navbar = () => {
       }
     };
 
-    // Delay focus slightly to allow drawer animation to start
     const timer = setTimeout(() => {
       firstElement.focus();
     }, 100);
@@ -127,7 +141,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation Links */}
         <nav
-          className="hidden md:flex gap-4 items-center"
+          className="hidden md:flex gap-1 items-center"
           aria-label="Main navigation"
         >
           {navLinks.map(({ pathName, pathSrc }) => {
@@ -147,11 +161,64 @@ const Navbar = () => {
               </Link>
             );
           })}
+
+          {/* Legal Dropdown */}
+          <div
+            className="relative"
+            ref={legalDropdownRef}
+            onMouseEnter={() => setIsLegalOpen(true)}
+            onMouseLeave={() => setIsLegalOpen(false)}
+          >
+            <button
+              onClick={() => setIsLegalOpen((prev) => !prev)}
+              aria-expanded={isLegalOpen}
+              aria-haspopup="true"
+              className={`flex items-center gap-1 text-sm font-medium px-3 py-1.5 rounded-md transition-all cursor-pointer ${
+                isLegalActive
+                  ? "bg-amber-100 text-amber-900 outline-1 outline-amber-300"
+                  : "text-amber-800 hover:bg-amber-100/60 hover:text-amber-900"
+              } focus:outline-2 focus:outline-offset-2 focus:outline-amber-500`}
+            >
+              Legal
+              <FiChevronDown
+                size={14}
+                className={`transition-transform duration-200 ${isLegalOpen ? "rotate-180" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {/* Dropdown panel */}
+            {isLegalOpen && (
+              <div
+                role="menu"
+                aria-label="Legal pages"
+                className="absolute top-full left-0 mt-1.5 w-52 bg-white rounded-xl shadow-lg border border-amber-200/60 py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+              >
+                {legalLinks.map(({ pathName, pathSrc }) => {
+                  const isActive = pathname === pathSrc;
+                  return (
+                    <Link
+                      key={pathSrc}
+                      href={pathSrc}
+                      role="menuitem"
+                      className={`flex items-center px-4 py-2 text-sm transition-colors ${
+                        isActive
+                          ? "bg-amber-50 text-amber-900 font-semibold"
+                          : "text-amber-800 hover:bg-amber-50 hover:text-amber-900"
+                      } focus:outline-none focus:bg-amber-50`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {pathName}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Actions (Settings + Hamburger) */}
-        <div className="flex items-center gap-1  sm:gap-2">
-          {/* Settings button on desktop */}
+        {/* Actions (Sign In/Out + Hamburger) */}
+        <div className="flex items-center gap-1 sm:gap-2">
           {!user ? (
             <button
               aria-label="Sign in with Google"
@@ -221,7 +288,7 @@ const Navbar = () => {
         </div>
 
         {/* Drawer Links */}
-        <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
+        <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
           {navLinks.map(({ pathName, pathSrc }) => {
             const isActive = pathname === pathSrc;
             return (
@@ -240,6 +307,50 @@ const Navbar = () => {
               </Link>
             );
           })}
+
+          {/* Mobile Legal Section — Collapsible */}
+          <div className="mt-1">
+            <button
+              onClick={() => setIsMobileLegalOpen((prev) => !prev)}
+              aria-expanded={isMobileLegalOpen}
+              className={`w-full flex items-center justify-between text-base font-semibold px-4 py-2.5 rounded-lg transition-all cursor-pointer ${
+                isLegalActive
+                  ? "bg-amber-100 text-amber-900 outline-1 outline-amber-300"
+                  : "text-amber-800 hover:bg-amber-100/50 hover:text-amber-900"
+              } focus:outline-2 focus:outline-amber-500`}
+            >
+              Legal
+              <FiChevronDown
+                size={16}
+                className={`transition-transform duration-200 ${isMobileLegalOpen ? "rotate-180" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {/* Legal sub-links */}
+            {isMobileLegalOpen && (
+              <div className="mt-1 ml-3 flex flex-col gap-0.5 border-l-2 border-amber-200 pl-3">
+                {legalLinks.map(({ pathName, pathSrc }) => {
+                  const isActive = pathname === pathSrc;
+                  return (
+                    <Link
+                      key={pathSrc}
+                      href={pathSrc}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`text-sm font-medium px-3 py-2 rounded-lg transition-all ${
+                        isActive
+                          ? "bg-amber-100 text-amber-900 font-semibold"
+                          : "text-amber-700 hover:bg-amber-100/50 hover:text-amber-900"
+                      } focus:outline-2 focus:outline-amber-500`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {pathName}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
       </div>
     </header>

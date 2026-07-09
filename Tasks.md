@@ -1,32 +1,17 @@
 Isame ke sabhi task ko complete karo -
 
-1. japa-points-system.md file ko read karo and implement karo.
+1. japa-points-system.md file ko read karo and implement ho gaya hai ki nahi sabhi se manual check karo sabhi sech.
 
-2. mera leaderboard firestore se conncet hai. lekin hamesa update nahi hota. Kiase real time update hoga, implement it.
+2. mera leaderboard firestore se conncet hai. lekin hamesa update nahi hota. Kiase real time update hoga, implement it. Real time me update hona chaiheye.
 
-3. Home page me sabse niche cta section hai. Us section ke right side me image-1.jpg and image-4.jpg ko public/image/ folder me hai, add karo do. aur app ke hissab se color platte use karana.
+3. Home page me sabse niche cta section hai. Image sabhi se fulll nahi dekh rahe or color matching nahi ho raha hai.
 
-4. Generate all legal pages (sabhi mere website ke theme ki hissab se banana) -
+4. Ab header me ek dropdown add karo **legal** keyword par, jaha user mouse le jaye to dropdown khulkar aaye jaise sabhi legal pages ke link show ho. Keep it mobile responsive also.
 
-- About us (/about-us)
-- Contact us (/contact-us)
-- Terms and Conditions (/terms-and-conditions)
-- Privacy & policy (/privacy-policy)
-- Discalimer (/discalimer)
+5. Satatis page me session history niche dekh raha hai, suppose that session hsitory jada ho gaya to scroll jada karana padega. Delete ka bhi option do. And kahi bhi hindi word mat use karo, keep it english. Tumane statis apge me likeha hai is mahine ke points, convert into english. isake sath se toast popups bhi home page me hindi word dekh rahe hai.
 
-5. Add faq section in all pages at the end and write content according to their page.
+6. Farmer motion add to kiya hai. Good. Lekin sabhi pages ko client side kuu bana diya. Mujhe seo chahiye isiliye isa karo ki animation bhi rahe or sabhi page server side ho.
 
-6. Make seo all pages (make sure) -
+7. Make sure all things lighthouse optimaize
 
-- Structred data (Article, BreadcrumbList , LocalBusiness , Organization , FAQPage , HowTo , Review/Rating, WebSite **Google prefers JSON-LD format**)
-- Meta data (title, description, keywords, og graph for twitter, overall.)
-- Accesibility
-- Aria -roles
-
-7. Add farmer motion. mene pahale se hi install kar liya hai. Sabhi pages me basic farmer motion implement kar dena.
-
-8. Home page me mene rada rada ka sound add kar diya hai. Joi ki me **use-sound** library use kar raha hu. Ab tumharea kaam hai ki **youtube audio librray** se dudkhar, sabhi mantra pages me add kar denea. Pahale download kar ke public/audio me dal kar use kar lena.
-
-9. Make sure all things lighthouse optimaize
-
-10. Upar ke sabhi task complete hone ke bad. Component ko split kar dena and resubale bana dena. Matlab ke folder stureutre, componetes splitting and code review kar dena.
+8. Upar ke sabhi task complete hone ke bad. Component ko split kar dena and resubale bana dena. Matlab ke folder stureutre, componetes splitting and code review kar dena.

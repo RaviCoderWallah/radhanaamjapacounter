@@ -1,9 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import FAQSection from "@/components/FAQSection";
 import PageHeader from "@/components/shared/PageHeader";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+
+export const metadata = {
+  title: "Privacy Policy — Radha Naam Japa Counter",
+  description:
+    "Review our Privacy Policy. Understand how we collect, store, protect, and handle your japa sadhana data and account details.",
+  keywords: ["privacy policy", "data privacy", "japa counter privacy"],
+  alternates: { canonical: "https://radhanaamjapa.com/privacy-policy" },
+};
 
 const LAST_UPDATED = "July 1, 2026";
 

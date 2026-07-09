@@ -1,9 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import FAQSection from "@/components/FAQSection";
 import PageHeader from "@/components/shared/PageHeader";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+
+export const metadata = {
+  title: "Disclaimer — Radha Naam Japa Counter",
+  description:
+    "Read the disclaimer for Radha Naam Japa Counter. Understand the terms, limitations, and nature of this online devotional tool.",
+  keywords: ["disclaimer japa counter", "legal disclaimer", "bhakti app disclaimer"],
+  alternates: { canonical: "https://radhanaamjapa.com/disclaimer" },
+};
 
 const LAST_UPDATED = "July 1, 2026";
 
