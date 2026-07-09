@@ -1,3 +1,5 @@
+"use client";
+
 import { BiLogoPlayStore } from "react-icons/bi";
 import Image from "next/image";
 import { motion } from "framer-motion";
